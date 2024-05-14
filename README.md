@@ -7,3 +7,5 @@ https://www.codingame.com/contests/fall-challenge-2023
 Community starter AIs are located here:
 
 https://github.com/CodinGame/FallChallenge2023-SeabedSecurity/tree/main/starterAIs
+
+執行指令:java -jar SUB.jar
