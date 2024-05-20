@@ -1,6 +1,5 @@
 from typing import List, NamedTuple, Dict
 import numpy as np
-import math
 
 # Define the data structures as namedtuples
 class Vector(NamedTuple):
@@ -62,7 +61,7 @@ while True:
     droneinfo = []
     for _ in range(my_drone_count):
         drone_id, drone_x, drone_y, dead, battery = map(int, input().split())
-        droneinfo = [drone_x, drone_y, battery]
+        droneinfo = [drone_x/10000, drone_y/10000, battery/5]
         pos = Vector(drone_x, drone_y)
         drone = Drone(drone_id, pos, dead == '1', battery, [])
         drone_by_id[drone_id] = drone
@@ -97,28 +96,19 @@ while True:
         my_radar_blips[drone_id].append(RadarBlip(fish_id, dir))
         direction_array.append(dir)
     
-    for drone in my_drones:
-        x = drone.pos.x
-        y = drone.pos.y
-        # TODO: Implement logic on where to move here
-        target_x = 5000
-        target_y = 5000
-        light = 1
-
-        print(f"MOVE {target_x} {target_y} {light}")
     
-    scan_presence = [0] * 12
+    scan_presence = [1] * 12
 
     # 更新列表，將出現的數字對應的位置設置為 1
     for scan in my_scans:
         if 2 <= scan <= 13:
-            scan_presence[scan - 2] = 1
+            scan_presence[scan - 2] = 0
     
     direction_map = {
     'TL': 0,
-    'TR': 1,
-    'BL': 2,
-    'BR': 3
+    'TR': 0.33,
+    'BL': 0.67,
+    'BR': 1
     }
     direction_array = [direction_map[dir] for dir in direction_array]
 
@@ -129,9 +119,13 @@ while True:
     allinfo = direction_array+scan_presence+droneinfo
     matrix = np.loadtxt('matrix_weight.txt')
     result = np.dot(allinfo,matrix)
-    result[0] = result[0]/20048*10000
-    result[1] = result[1]/20048*10000
-    result[2] = result[2]/20048
+    A = int(result[0]/27*10000)
+    target_y = int(result[1]/27*10000)
+    result[2] = result[2]/27
+    light = 0
+    if result[2] >= 0.5:
+        light=1
+    print(f"MOVE {A} {target_y} {light}")
     with open('output.txt', 'w') as file:
-        file.write(f'my_radar_blip_count={result}\n')
+        file.write(f'my_radar_blip_count={result[0]}\n')
 
