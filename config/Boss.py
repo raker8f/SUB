@@ -1,4 +1,6 @@
 from typing import List, NamedTuple, Dict
+import numpy as np
+import math
 
 # Define the data structures as namedtuples
 class Vector(NamedTuple):
@@ -57,8 +59,10 @@ while True:
         foe_scans.append(fish_id)
 
     my_drone_count = int(input())
+    droneinfo = []
     for _ in range(my_drone_count):
         drone_id, drone_x, drone_y, dead, battery = map(int, input().split())
+        droneinfo = [drone_x, drone_y, battery]
         pos = Vector(drone_x, drone_y)
         drone = Drone(drone_id, pos, dead == '1', battery, [])
         drone_by_id[drone_id] = drone
@@ -118,6 +122,16 @@ while True:
     }
     direction_array = [direction_map[dir] for dir in direction_array]
 
+#   with open('output.txt', 'w') as file:
+#      file.write(f'my_radar_blip_count={direction_array}\n')
+#      file.write(f'my_scans={scan_presence}\n')
+#       file.write(f'droneinfo={droneinfo}\n')
+    allinfo = direction_array+scan_presence+droneinfo
+    matrix = np.loadtxt('matrix_weight.txt')
+    result = np.dot(allinfo,matrix)
+    result[0] = result[0]/20048*10000
+    result[1] = result[1]/20048*10000
+    result[2] = result[2]/20048
     with open('output.txt', 'w') as file:
-        file.write(f'my_radar_blip_count={direction_array}\n')
-        file.write(f'my_scans={scan_presence}\n')
+        file.write(f'my_radar_blip_count={result}\n')
+
