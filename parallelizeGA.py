@@ -47,9 +47,15 @@ def crossover(parents, crossover_rate):
         child2 = parents[1]
     return child1, child2
 
-def mutate(individual, mutation_rate):
-    if random.random() < mutation_rate:
-        individual += np.random.uniform(-0.1, 0.1, size=individual.shape)
+def polynomial_mutation(individual, mutation_rate, eta=20):
+    size = individual.shape
+    for i in range(size[0]):
+        for j in range(size[1]):
+            if random.random() < mutation_rate:
+                u = random.random()
+                delta = (2*u)**(1/(eta+1)) - 1 if u < 0.5 else 1 - (2*(1-u))**(1/(eta+1))
+                individual[i, j] += delta
+                individual[i, j] = min(max(individual[i, j], 0), 1)  # 确保突变后的值仍在 [0, 1] 范围内
     return individual
 
 def genetic_algorithm(population_size, generations):
@@ -60,8 +66,8 @@ def genetic_algorithm(population_size, generations):
         for _ in range(population_size // 2):
             parents = select_parents(population, fitness_scores)
             offspring1, offspring2 = crossover(parents, crossover_rate=0.5)
-            offspring1 = mutate(offspring1, mutation_rate=0.1)
-            offspring2 = mutate(offspring2, mutation_rate=0.1)
+            offspring1 = polynomial_mutation(offspring1, mutation_rate=0.1)
+            offspring2 = polynomial_mutation(offspring2, mutation_rate=0.1)
             new_population.extend([offspring1, offspring2])
         
         combined_population = population + new_population
@@ -69,10 +75,13 @@ def genetic_algorithm(population_size, generations):
         population = sorted_population[:population_size]
         
         print(f"Generation {generation + 1}, Best fitness: {fitness_function(population[0])}")
-        
+        if generation%100 == 99:
+            combined_matrix = np.vstack(population)
+            file_name = "final_population.txt"
+            np.savetxt(file_name, combined_matrix)
     return min(population, key=fitness_function)
 
-best_solution = genetic_algorithm(population_size=10, generations=5)
+best_solution = genetic_algorithm(population_size=100, generations=100000)
 print("Best solution:")
 print(best_solution)
 print("Fitness:", fitness_function(best_solution))
