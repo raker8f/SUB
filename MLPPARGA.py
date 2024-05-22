@@ -19,16 +19,16 @@ def save_matrix_to_txt(matrix, filename):
     np.savetxt(filename, matrix)
 
 def generate_individual():
-    return np.random.uniform(0, 1, size=(27*10 + 10*3,))
+    return np.random.uniform(0, 1, size=(63*10 + 10*3,))
 
 def generate_population(pop_size):
     return [generate_individual() for _ in range(pop_size)]
 
 def calculate_fitness_individual(individual):
-    assert len(individual) == 27*10 + 10*3, "個體長度不正確"
+    assert len(individual) == 63*10 + 10*3, "個體長度不正確"
     
-    matrix_input_hidden = individual[:27*10].reshape((10, 27))
-    matrix_hidden_output = individual[27*10:].reshape((3, 10))
+    matrix_input_hidden = individual[:63*10].reshape((10, 63))
+    matrix_hidden_output = individual[63*10:].reshape((3, 10))
 
     combined_matrix = np.concatenate((matrix_input_hidden.flatten(), matrix_hidden_output.flatten()))
     
@@ -87,7 +87,7 @@ def genetic_algorithm(population_size, generations):
             np.savetxt(file_name, combined_matrix)
     return min(population, key=fitness_function)
 
-best_solution = genetic_algorithm(population_size=2, generations=2)
+best_solution = genetic_algorithm(population_size=10, generations=1000)
 print("Best solution:")
 print(best_solution)
 print("Fitness:", fitness_function(best_solution))

@@ -24,7 +24,7 @@ class NeuralNetwork:
         return output_layer_output
 
 # 創建神經網絡
-input_size = 27
+input_size = 63
 hidden_size = 10
 output_size = 3
 nn = NeuralNetwork(input_size, hidden_size, output_size)

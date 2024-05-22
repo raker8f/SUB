@@ -129,19 +129,21 @@ while True:
             scan_presence[scan - 2] = 0
     
     direction_map = {
-    'TL': 0,
-    'TR': 0.33,
-    'BL': 0.67,
-    'BR': 1
-    }
-    direction_array = [direction_map[dir] for dir in direction_array]
-
+        'TL': 0,
+        'TR': 1,
+        'BL': 2,
+        'BR': 3
+        }
+    direction_arrayone = [0]*48
+    which0 = [direction_map[dir] for dir in direction_array]
+    for i in range(12):
+        direction_arrayone[i*4+which0[i]]= 1
 #   with open('output.txt', 'w') as file:
 #      file.write(f'my_radar_blip_count={direction_array}\n')
 #      file.write(f'my_scans={scan_presence}\n')
 #       file.write(f'droneinfo={droneinfo}\n')
-    allinfo = direction_array+scan_presence+droneinfo
-    input_size = 27
+    allinfo = direction_arrayone+scan_presence+droneinfo
+    input_size = 63
     hidden_size = 10
     output_size = 3
     nn = NeuralNetwork(input_size, hidden_size, output_size)

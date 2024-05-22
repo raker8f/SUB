@@ -16,6 +16,7 @@ public class Fall2023Main {
 
     private static int[] getFinalScores() throws IOException, InterruptedException {
         MultiplayerGameRunner gameRunner = new MultiplayerGameRunner();
+        gameRunner.setSeed(-8358938852454912011l);
         gameRunner.addAgent("python3 config/Boss.py", "TestBoss_1");
         gameRunner.addAgent("python3 config/Boss.py", "TestBoss_2");
         gameRunner.setLeagueLevel(1);
