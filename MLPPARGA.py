@@ -25,7 +25,7 @@ def generate_population(pop_size):
     return [generate_individual() for _ in range(pop_size)]
 
 def calculate_fitness_individual(individual):
-    assert len(individual) == 27*10 + 10*3, "个体长度不正确，应为 300"
+    assert len(individual) == 27*10 + 10*3, "個體長度不正確"
     
     matrix_input_hidden = individual[:27*10].reshape((10, 27))
     matrix_hidden_output = individual[27*10:].reshape((3, 10))
