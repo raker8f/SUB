@@ -72,7 +72,7 @@ def genetic_algorithm(population_size, generations):
     return min(population, key=fitness_function)
 
 # 測試基因演算法
-best_solution = genetic_algorithm(population_size=100, generations=100)
+best_solution = genetic_algorithm(population_size=5, generations=5)
 print("Best solution:")
 print(best_solution)
 print("Fitness:", fitness_function(best_solution))
