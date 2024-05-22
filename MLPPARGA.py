@@ -61,7 +61,7 @@ def polynomial_mutation(individual, mutation_rate, eta=20):
             u = random.random()
             delta = (2*u)**(1/(eta+1)) - 1 if u < 0.5 else 1 - (2*(1-u))**(1/(eta+1))
             individual[i] += delta
-            individual[i] = min(max(individual[i], 0), 1)  # 确保突变后的值仍在 [0, 1] 范围内
+            individual[i] = min(max(individual[i], 0), 1)  
     return individual
 
 def genetic_algorithm(population_size, generations):
