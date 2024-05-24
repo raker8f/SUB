@@ -18,7 +18,7 @@ public class Fall2023Main {
         MultiplayerGameRunner gameRunner = new MultiplayerGameRunner();
         gameRunner.setSeed(-8358938852454912011l);
         gameRunner.addAgent("python3 config/Boss.py", "TestBoss_1");
-        gameRunner.addAgent("python3 config/Boss.py", "TestBoss_2");
+        gameRunner.addAgent("python3 config/starterAI.py", "TestBoss_2");
         gameRunner.setLeagueLevel(1);
         GameResult gameResult = gameRunner.simulate();
 

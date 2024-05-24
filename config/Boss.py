@@ -121,12 +121,12 @@ while True:
         direction_array.append(dir)
     
     
-    scan_presence = [1] * 12
+    scan_presence = [0] * 12
 
     # 更新列表，將出現的數字對應的位置設置為 1
     for scan in my_scans:
         if 2 <= scan <= 13:
-            scan_presence[scan - 2] = 0
+            scan_presence[scan - 2] = 1
     
     direction_map = {
         'TL': 0,

@@ -19,7 +19,17 @@ def save_matrix_to_txt(matrix, filename):
     np.savetxt(filename, matrix)
 
 def generate_individual():
-    return np.random.uniform(0, 1, size=(63*10 + 10*3,))
+    n_in = 63
+    n_hidden = 10
+    n_out = 3
+    
+    limit_input_hidden = np.sqrt(6 / (n_in + n_hidden))
+    limit_hidden_output = np.sqrt(6 / (n_hidden + n_out))
+    
+    matrix_input_hidden = np.random.uniform(-limit_input_hidden, limit_input_hidden, size=(n_hidden, n_in)).flatten()
+    matrix_hidden_output = np.random.uniform(-limit_hidden_output, limit_hidden_output, size=(n_out, n_hidden)).flatten()
+    
+    return np.concatenate([matrix_input_hidden, matrix_hidden_output])
 
 def generate_population(pop_size):
     return [generate_individual() for _ in range(pop_size)]
@@ -87,7 +97,7 @@ def genetic_algorithm(population_size, generations):
             np.savetxt(file_name, combined_matrix)
     return min(population, key=fitness_function)
 
-best_solution = genetic_algorithm(population_size=10, generations=1000)
+best_solution = genetic_algorithm(population_size=5, generations=5)
 print("Best solution:")
 print(best_solution)
 print("Fitness:", fitness_function(best_solution))
