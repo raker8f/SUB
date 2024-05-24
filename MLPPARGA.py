@@ -71,7 +71,7 @@ def polynomial_mutation(individual, mutation_rate, eta=20):
             u = random.random()
             delta = (2*u)**(1/(eta+1)) - 1 if u < 0.5 else 1 - (2*(1-u))**(1/(eta+1))
             individual[i] += delta
-            individual[i] = min(max(individual[i], 0), 1)  
+            individual[i] = min(max(individual[i], 0), 1)
     return individual
 
 def genetic_algorithm(population_size, generations):
@@ -90,12 +90,11 @@ def genetic_algorithm(population_size, generations):
         combined_population = population + new_population
         sorted_population = sorted(combined_population, key=fitness_function)
         population = sorted_population[:population_size]
-
+        
         best_fitness = fitness_function(population[0])
         best_fitness_per_generation.append(best_fitness)
-        
+
         print(f"Generation {generation + 1}, Best fitness: {best_fitness}")
-        
         if generation%100 == 99:
             combined_matrix = np.vstack(population)
             file_name = "final_population.txt"
@@ -104,7 +103,7 @@ def genetic_algorithm(population_size, generations):
     np.savetxt("best_fitness_per_generation.txt", best_fitness_per_generation)
     return min(population, key=fitness_function)
 
-best_solution = genetic_algorithm(population_size=2, generations=2)
+best_solution = genetic_algorithm(population_size=20, generations=5)
 print("Best solution:")
 print(best_solution)
 print("Fitness:", fitness_function(best_solution))

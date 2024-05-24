@@ -150,8 +150,8 @@ while True:
 
     nn.load_weights('matrix_weight.txt')
     result = nn.forward(allinfo)
-    A = int(result[0]*10000)
-    target_y = int(result[1]*10000)
+    A = int(result[0]*9999)
+    target_y = int(result[1]*9999)
     light = 0
     if result[2] >= 0.5:
         light=1
