@@ -38,7 +38,7 @@ for _ in range(creature_count):
 # 定義掃描順序
 #scan_order = list(range(2, 14))  # 生物 ID 2 到 13
 scan_order = [2, 3,  4, 5, 6 ,7  ,8  ,9 , 10 ,11, 12, 13]
-back_to_save = [0 , 0,  0, 0,  0,  0 , 0,  0 , 0,  0 , 0 , 0]
+back_to_save = [0 , 0,  0, 0, 0, 0 , 0,  0 , 0,  0 , 0 , 0]
 k = 0
 back = 0
 number_of_scan = 0
@@ -113,8 +113,7 @@ while True:
         if back == 1:
             print(f"MOVE {drone.pos.x} {0} {0}")
     remaining_targets = [cid for cid in scan_order if cid not in drone_by_id[my_drones[0].drone_id].scans+my_scans]
-    unscanned_visible_creatures = [c for c in visible_creatures if c.creature_id in remaining_targets]
-    if unscanned_visible_creatures:
+    if my_drones[0].battery>=15:
         light =1
     if back == 0:
         if remaining_targets:
